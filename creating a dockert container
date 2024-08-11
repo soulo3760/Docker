@@ -1,0 +1,61 @@
+git clone https://github.com/dockersamples/linux_tweep_app
+ we are cloning a lap repo repo into a new subdirectory
+now lets run some docker containers 
+we will run a single task in an alpine linux container 
+docker container run alpine hostname 
+this command will make docker auto pull the alpine image from docker hub 
+then it will display the container hostname 
+the container stops once the process running exits, otherwise it keeps running
+docker does not delete container resources by default - the container stops bur exists in exited state
+you can check this using the docker container ls - al
+containers can be run to execute a script or configuration without hte need of the actual scripp or conf info.
+>>>>>
+>>>>>
+to run the container based on a different version of linux than the one running on the docker host 
+we run an interactive ubuntu container
+
+docker container run -it --rm ubuntu bash
+-- rm tells the docker to go ahead and remove the container when its done executing 
+this means we wont see the ubuntu bash when we run docker container ls --all
+
+the first two commands allow  u to be interactive with the docker container
+type exit to leave the shell session, terminate the bash process, cause the container to exit
+......
+.....
+..............
+background MYSQL container 
+let run a new MYSQL container 
+
+docker container run \
+--detach \
+--name mydb \
+-e MYSQL_ROOT_PASSWORD=my-secret-pw \
+mysql:latest
+
+--detach means the container will run the background 
+--name means will be its name mysql 
+-e will use a environment variable to specify the root password 
+mysql image is not available locally, docker automatically pulled it from docker hub
+
+
+commans to check on your container
+docker container ls 
+docker container logs mydb
+
+
+network traffic cannot reach containers from the host unless ports are explicitly published 
+list mysql version 
+docker container exec 
+this command allows you to run commands inside container 
+
+docker exec -it mydb \
+mysql --user=root --password=$MYSQL_ROOT_PASSWORD --version
+
+docker exec -it mydb sh 
+  # this connects a new shell process inside an already running container, giving upi an 
+  # interactive shell sh inside you MYSQL container.
+to leave the interactive shell type exit
+
+
+
+LETS PACKAGE AND RUN A CUSTOM APP USING DOCKER 
