@@ -32,3 +32,19 @@ docker container run \
 --publish 8080:80 \
 --name old_linux_app \
 $DOCKERID/linux_tweet_app:1.0
+
+
+
+docker image ls -f reference="$DUCKERID/*"
+this should show the two images tagged as 1.0 and 2.0
+these images are stored in the hosts local repository 
+so we might need to push the images to public repository so as to run them from any linux machine with docker 
+so we need to push them to public or private registry 
+first thing we need to push images into docker hub is login
+
+docker login 
+docker image push $DOCKERID/ linux_tweet_app:1.0
+docker image push $DOCKERID/ linux_tweet_app:2.0
+
+reference
+https://training.play-with-docker.com/beginner-linux/
