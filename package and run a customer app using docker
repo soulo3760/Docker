@@ -1,0 +1,33 @@
+lets build a simple web image 
+make a directory called linux tweep app
+cd ~/linux_tweep_app
+cat dockerfile 
+  FROM nginx:latest ==== FROM specifies the base image to be used 
+
+ COPY index.html /usr/share/nginx/html ===== copies files from the docker host into the image at a known location 
+ COPY linux.png /usr/share/nginx/html -===========in this case we are coping index and linux png into the image
+
+ EXPOSE 80 443     documents which portas the application will use 
+
+ CMD ["nginx", "-g", "daemon off;"]     ========= specifies the command to run when a container is started from the image.
+                                     notice that we can specify the command as well as run tume arguments
+ export DOCKERID=()
+
+ docker image build --tag $DOCKERID/linux_tweet_app:1.0 .
+
+  dont forget the last current directory as the build context
+  --tag allows image to be given a custom name in our care dockerid, appname and version 
+
+  to start the conainter from the image you created
+  docker container run 
+  --detach \
+  --publish 80:80 \ ===== the publish flag  (host port:containerport)is used to publish port 80 inside the conainter into port 80 on the host 
+                                   this will allow traffic comming in the docker host on port 80 to be directed to port 9- in the contianer 
+  --name linux_tweet_app \
+  $DOCKERID/linux_tweet/app:1.0
+
+  docker container rm --force linux_tweet/ap ===== this shuts down and removes the container 
+
+  docker container stop - offers graceful stop and leave it on the hosry 
+  dockery container rm permantely remove it ... ----force is not graceful and does remove without graceful shutdown
+  
