@@ -1,0 +1,15 @@
+  a running website does not need to be stoped, rebuild and run everytime you change source code
+  there need to streamline changes made on host to reflect immediately in container
+  this can be achieved through bind mount 
+  when you use a bind mount, a file or directory on the host machine is mounted into a container running on the smae host.
+
+
+  1. start the web app and mount current dirrectory into the container 
+
+  docker container run \
+  --detach \
+  --publish 80:80 \
+  --name linux_tweet_app \
+  --mount type=bind,source="$(PWD)",target=/usr/share/nginx/htmml \
+  $DOCKERID/linux_tweet_app:1.0
+  
