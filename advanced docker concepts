@@ -1,0 +1,74 @@
+dockerfile 
+dockerfile instructions are executed in order
+each instructions create a new layer in the image 
+instructions are cached, if no changes are detected, the instrucutions are skipped and cached layer used.
+# are treated as comments 
+you can only have one CMD and ENTRYPOINT instruction in a dockerfile
+FROM specifies the source image to build this image, it must be the first instruction
+
+FROM UBUNTU 
+or 
+FROM ubuntu: 12.04
+or if self hosted
+FROM localhost:5000/funtoo
+you can specifc more than once to build multiple images
+FROM ubuntu: 14.04
+...
+FROM fedora: 20 # in this case each FROM instruction marks beginning of a new image build
+
+
+MAINTAINER instructions tells who wrote the dockerfile
+MAINTAINER docker solomon <solomioro@gmail.com>
+
+RUN instructions 
+RUn will  : execute a command
+          : record changes made to the filestystem
+          : work great to install libraries 
+CMD and ENTRYPOINT can be used to start something automatically when the container runs.
+
+RUN apt-get update && apt-get install -y wget && apt-get clean
+or break to execute multiple commands in a single step
+RUN apt-get update \
+  && apt-get install -y wget \
+  && apt-get clean
+
+EXPOSE Instruction 
+tells Docker what ports are to be published in this image 
+all ports are private by default 
+run -p <port>  makes the port public 
+run -P <port> all ports declared with EXPOSE become public 
+
+Public ports are reachable from other containers and from outside the host 
+
+VOLUME instruction 
+this will create a data volume mount point at the specified path 
+- they bypass the union file system
+- can be shared and reused between containers
+- persist untill all containers refereing them are destroyed 
+
+WORKDIR instruction
+this instruction sets the working directory  used when starting the container and for the subsequent instructions. 
+you can change working directory by specifying WORKDIR again for further operations
+
+ENV Instructions
+it specifies the environment variables that should be set in any container lauched from an image
+
+ENV WEBAPP_PORT 8080
+
+docker run -e WEBAPP_PORT 8080 ENV WEBAPP_HOST=www.example.com ...
+
+CMD Instruction 
+CMD 
+
+You can override the CMD specified in the Dockerfile by providing a different command when you run the container.
+
+docker run your_image_name /bin/bash -c "echo Custom CMD"
+# Dockerfile
+FROM ubuntu:latest
+ENTRYPOINT ["echo"]
+CMD ["Hello, World!"]
+can be overidden by ENTRYPOINT which sets main executable and CMD provide default arguments.
+OR differnet arguemnts when you run the container 
+docker run your_imageName /bin/bash -c "Echo Custom CMD"
+
+
